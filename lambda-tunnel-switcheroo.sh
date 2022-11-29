@@ -29,7 +29,7 @@ fi
 sudo sed -i 's#http://localhost:[[:digit:]]\+#http://localhost:'"${new_port}#" /etc/cloudflared/config.yml
 
 if [[ "$?" -eq 0 ]]; then
-	echo "Success, now the \"Cloud IDE\" link in your dashboard will take you to the Stable Diffusion web ui that (hopefully) is listening on port ${sd_webui_port}."
+	echo "Success, now the \"Cloud IDE\" link in your dashboard will take you to the service that (hopefully) is listening on port ${new_port}."
 else
 	echo "Sorry, something went wrong. For support, please email support@lambdal.com and include all output from this script in your message."
 	echo "Here is the current contents of /etc/cloudflared/config.yml:"
