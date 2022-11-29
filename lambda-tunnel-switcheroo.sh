@@ -29,6 +29,8 @@ fi
 sudo sed -i 's#http://localhost:[[:digit:]]\+#http://localhost:'"${new_port}#" /etc/cloudflared/config.yml
 
 if [[ "$?" -eq 0 ]]; then
+	sudo systemctl restart cloudflared.service
+
 	echo "Success, now the \"Cloud IDE\" link in your dashboard will take you to the service that (hopefully) is listening on port ${new_port}."
 else
 	echo "Sorry, something went wrong. For support, please email support@lambdal.com and include all output from this script in your message."
