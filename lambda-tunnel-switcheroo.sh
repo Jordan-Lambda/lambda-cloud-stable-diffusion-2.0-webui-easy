@@ -17,7 +17,7 @@
 # SECURITY WARNING: Do not configure your service to listen to any address other than localhost!
 # *****************
 
-if [[ "$1" =~ "^[0-9]+$" ]]; then
+if [[ "$1" =~ ^[0-9]+$ ]]; then
 	new_port="$1"
 else
 	echo "new_port must be a port number. You passed in: $1"
