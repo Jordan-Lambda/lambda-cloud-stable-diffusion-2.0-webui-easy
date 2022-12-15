@@ -71,7 +71,7 @@ RUN pip install opencv-python-headless \
 # Note: don't update the sha of previous versions because the install will take forever
 # instead, update the repo state in a later step
 
-ARG SHA=9e78d2c419732711e984c4478af15ece121d64fd
+ARG SHA=685f9631b56ff8bd43bce24ff5ce0f9a0e9af490
 RUN <<EOF
 cd stable-diffusion-webui
 git fetch
@@ -79,7 +79,7 @@ git reset --hard ${SHA}
 pip install -r requirements_versions.txt
 EOF
 
-RUN pip install opencv-python-headless
+RUN pip install opencv-python-headless transformers==4.24.0
 
 COPY . /docker
 
@@ -93,5 +93,4 @@ WORKDIR ${ROOT}
 ENV CLI_ARGS=""
 EXPOSE 7860
 ENTRYPOINT ["/docker/entrypoint.sh"]
-# run, -u to not buffer stdout / stderr
 CMD python3 -u webui.py --listen --port 7860 ${CLI_ARGS}
