@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 sudo docker compose --profile download up --build
 
