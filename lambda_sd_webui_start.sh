@@ -8,8 +8,8 @@ sd_2_1_dir=data/StableDiffusion/v2.1/
 sudo mkdir -p "$sd_2_1_dir"
 
 echo -e "\n\n Downloading Stable Diffusion 2.1 checkpoints, for both 512x512 and 768x768.\n"
-sudo wget -c https://huggingface.co/stabilityai/stable-diffusion-2-1/blob/main/v2-1_768-ema-pruned.ckpt -O "$sd_2_1_dir"v2-1_768-ema-pruned.ckpt
-sudo wget -c https://huggingface.co/stabilityai/stable-diffusion-2-1-base/blob/main/v2-1_512-ema-pruned.ckpt -O "$sd_2_1_dir"v2-1_512-ema-pruned.ckpt
+sudo wget -c https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt -O "$sd_2_1_dir"v2-1_768-ema-pruned.ckpt
+sudo wget -c https://huggingface.co/stabilityai/stable-diffusion-2-1-base/resolve/main/v2-1_512-ema-pruned.ckpt -O "$sd_2_1_dir"v2-1_512-ema-pruned.ckpt
 
 
 # The v2-inference.yaml config works for 2.1 as well as 2, and is the same for the 512 and 768 checkpoints.
