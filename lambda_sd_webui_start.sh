@@ -16,8 +16,8 @@ sudo wget -c https://huggingface.co/stabilityai/stable-diffusion-2-1-base/resolv
 # So download it once, and then make sylinks to the single download
 sudo wget -c https://raw.githubusercontent.com/Stability-AI/stablediffusion/main/configs/stable-diffusion/v2-inference.yaml -O "$sd_2_1_dir"v2-inference.yaml
 
-sudo ln -s v2-inference.yaml "$sd_2_1_dir"v2-1_512-ema-pruned.yaml
-sudo ln -s v2-inference.yaml "$sd_2_1_dir"v2-1_768-ema-pruned.yaml
+sudo ln -sf v2-inference.yaml "$sd_2_1_dir"v2-1_512-ema-pruned.yaml
+sudo ln -sf v2-inference.yaml "$sd_2_1_dir"v2-1_768-ema-pruned.yaml
 
 ./switch_to_sd_webui.sh
 
