@@ -27,7 +27,7 @@ services:
     <<: *base_service
     profiles: ["auto"]
     build: ./services/AUTOMATIC1111
-    image: sd-auto:23
+    image: sd-auto:33
     environment:
       - CLI_ARGS=--allow-code --medvram --xformers --enable-insecure-extension-access --api
 
@@ -38,11 +38,21 @@ services:
     environment:
       - CLI_ARGS=--no-half --precision full
 
+  invoke:
+    <<: *base_service
+    profiles: ["invoke"]
+    build: ./services/invoke/
+    image: sd-invoke:17
+    environment:
+      - PRELOAD=true
+      - CLI_ARGS=
+
+
   sygil: &sygil
     <<: *base_service
     profiles: ["sygil"]
     build: ./services/sygil/
-    image: sd-sygil:14
+    image: sd-sygil:16
     environment:
       - CLI_ARGS=--optimized-turbo
       - USE_STREAMLIT=0
@@ -52,13 +62,3 @@ services:
     profiles: ["sygil-sl"]
     environment:
       - USE_STREAMLIT=1
-
-
-  invoke:
-    <<: *base_service
-    profiles: ["invoke"]
-    build: ./services/invoke/
-    image: sd-invoke:14
-    environment:
-      - PRELOAD=true
-      - CLI_ARGS=
