@@ -4,15 +4,16 @@ set -Eeuo pipefail
 
 # TODO: move all mkdir -p ?
 mkdir -p /data/config/auto/scripts/
+# mount scripts individually
+find "${ROOT}/scripts/" -maxdepth 1 -type l -delete
+cp -vrfTs /data/config/auto/scripts/ "${ROOT}/scripts/"
+
 cp -n /docker/config.json /data/config/auto/config.json
 jq '. * input' /data/config/auto/config.json /docker/config.json | sponge /data/config/auto/config.json
 
 if [ ! -f /data/config/auto/ui-config.json ]; then
   echo '{}' >/data/config/auto/ui-config.json
 fi
-
-# copy scripts, we cannot just mount the directory because it will override the already provided scripts in the repo
-cp -rfT /data/config/auto/scripts/ "${ROOT}/scripts"
 
 declare -A MOUNTS
 
@@ -33,6 +34,7 @@ MOUNTS["${ROOT}/models/hypernetworks"]="/data/Hypernetworks"
 MOUNTS["${ROOT}/models/torch_deepdanbooru"]="/data/Deepdanbooru"
 MOUNTS["${ROOT}/models/BLIP"]="/data/BLIP"
 MOUNTS["${ROOT}/models/midas"]="/data/MiDaS"
+MOUNTS["${ROOT}/models/Lora"]="/data/Lora"
 
 MOUNTS["${ROOT}/embeddings"]="/data/embeddings"
 MOUNTS["${ROOT}/config.json"]="/data/config/auto/config.json"

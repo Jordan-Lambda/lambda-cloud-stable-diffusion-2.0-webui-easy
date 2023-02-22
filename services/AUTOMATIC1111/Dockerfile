@@ -26,7 +26,7 @@ RUN . /clone.sh clip-interrogator https://github.com/pharmapsychotic/clip-interr
 
 FROM alpine:3.17 as xformers
 RUN apk add --no-cache aria2
-RUN aria2c -x 5 --dir / --out wheel.whl 'https://github.com/AbdBarho/stable-diffusion-webui-docker/releases/download/4.1.0/xformers-0.0.16.dev421-cp310-cp310-manylinux2014_x86_64.whl'
+RUN aria2c -x 5 --dir / --out wheel.whl 'https://github.com/AbdBarho/stable-diffusion-webui-docker/releases/download/5.0.0/xformers-0.0.17.dev449-cp310-cp310-manylinux2014_x86_64.whl'
 
 FROM python:3.10.9-slim
 
@@ -59,16 +59,15 @@ RUN --mount=type=cache,target=/root/.cache/pip \
   pip install -r ${ROOT}/repositories/CodeFormer/requirements.txt
 
 RUN --mount=type=cache,target=/root/.cache/pip \
-  pip install opencv-python-headless \
+  pip install pyngrok \
   git+https://github.com/TencentARC/GFPGAN.git@8d2447a2d918f8eba5a4a01463fd48e45126a379 \
   git+https://github.com/openai/CLIP.git@d50d76daa670286dd6cacf3bcd80b5e4823fc8e1 \
-  git+https://github.com/mlfoundations/open_clip.git@bb6e834e9c70d9c27d0dc3ecedeebeaeb1ffad6b \
-  pyngrok
+  git+https://github.com/mlfoundations/open_clip.git@bb6e834e9c70d9c27d0dc3ecedeebeaeb1ffad6b
 
 # Note: don't update the sha of previous versions because the install will take forever
 # instead, update the repo state in a later step
 
-ARG SHA=d97f467c0d27695d23edad5e4f8898a57e0ccb00
+ARG SHA=076d624a297532d6e4abebe5807fd7c7504d7a73
 RUN --mount=type=cache,target=/root/.cache/pip <<EOF
 cd stable-diffusion-webui
 git fetch
@@ -76,18 +75,19 @@ git reset --hard ${SHA}
 pip install -r requirements_versions.txt
 EOF
 
-RUN --mount=type=cache,target=/root/.cache/pip \
-  pip install -U opencv-python-headless transformers>=4.24
+RUN --mount=type=cache,target=/root/.cache/pip  pip install -U opencv-python-headless
 
 COPY . /docker
 
 RUN <<EOF
 python3 /docker/info.py ${ROOT}/modules/ui.py
 mv ${ROOT}/style.css ${ROOT}/user.css
+# one of the ugliest hacks I ever wrote
+sed -i 's/in_app_dir = .*/in_app_dir = True/g' /usr/local/lib/python3.10/site-packages/gradio/routes.py
 EOF
 
 WORKDIR ${ROOT}
 ENV CLI_ARGS=""
 EXPOSE 7860
 ENTRYPOINT ["/docker/entrypoint.sh"]
-CMD python3 -u webui.py --listen --port 7860 ${CLI_ARGS}
+CMD python -u webui.py --listen --port 7860 ${CLI_ARGS}

@@ -6,6 +6,7 @@ x-base_service: &base_service
     volumes:
       - &v1 ./data:/data
       - &v2 ./output:/output
+    stop_signal: SIGINT
     deploy:
       resources:
         reservations:
@@ -27,7 +28,7 @@ services:
     <<: *base_service
     profiles: ["auto"]
     build: ./services/AUTOMATIC1111
-    image: sd-auto:33
+    image: sd-auto:46
     environment:
       - CLI_ARGS=--allow-code --medvram --xformers --enable-insecure-extension-access --api
 
@@ -36,13 +37,13 @@ services:
     profiles: ["auto-cpu"]
     deploy: {}
     environment:
-      - CLI_ARGS=--no-half --precision full
+      - CLI_ARGS=--no-half --precision full --allow-code --enable-insecure-extension-access --api
 
   invoke:
     <<: *base_service
     profiles: ["invoke"]
     build: ./services/invoke/
-    image: sd-invoke:17
+    image: sd-invoke:24
     environment:
       - PRELOAD=true
       - CLI_ARGS=
