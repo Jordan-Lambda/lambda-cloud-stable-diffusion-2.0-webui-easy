@@ -1,4 +1,9 @@
-# One liner setup of Stable Diffusion Web UI for a Lambda Cloud instance
+# Honestly, this has been made mostly obsolete by Lambda's "Demos" feature.
+
+I recommend using that instead, instructions here: https://lambdalabs.com/blog/host-stable-diffusion-with-lambda-demos-in-just-a-few-clicks
+
+
+## One liner setup of Stable Diffusion Web UI for a Lambda Cloud instance
 
 A fully automated script to go from a new Lambda Cloud instance to the AUTOMATIC111 stable diffusion webui, with Stable Diffusion 1.5 and 2.1.
 
